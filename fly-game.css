@@ -1,0 +1,207 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.settings-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.setting-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.setting-group label {
+    font-weight: bold;
+    color: #333;
+}
+
+.setting-group input,
+.setting-group select {
+    padding: 0.5rem;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.instruction-wrapper {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.instruction-toggle {
+    background: #f1c40f;
+    color: #222;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+    transition: background 0.2s;
+}
+
+.instruction-toggle:hover {
+    background: #d4ac0d;
+}
+
+.instruction-content {
+    background: #fef9e7;
+    border: 1px solid #f1c40f;
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    color: #222;
+    margin-top: 0.5rem;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.grid {
+    display: grid;
+    gap: 2px;
+    background: #333;
+    border-radius: 10px;
+    margin: 0 auto;
+    max-width: min(80vw, 400px);
+    aspect-ratio: 1;
+}
+
+.grid-cell {
+    background: #fff;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    min-height: 44px;
+}
+
+.grid-cell:hover {
+    background: #e3f2fd;
+}
+
+.grid-cell.selected {
+    background: #2196f3;
+    color: white;
+}
+
+.grid-cell.correct {
+    background: #4caf50;
+    color: white;
+}
+
+.grid-cell.wrong {
+    background: #f44336;
+    color: white;
+}
+
+button {
+    background: #2196f3;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 44px;
+}
+
+button:hover {
+    background: #1976d2;
+    transform: translateY(-2px);
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+        margin: 0.5rem;
+    }
+    .settings-panel {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+    .grid {
+        max-width: 90vw;
+    }
+    h1 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+    .instruction-content {
+        font-size: 0.95rem;
+        padding: 0.8rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid-cell {
+        min-height: 50px;
+        font-size: 1rem;
+    }
+    button {
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+    .container {
+        padding: 0.5rem;
+    }
+    .settings-panel {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

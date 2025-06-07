@@ -7,6 +7,7 @@ class FlyGame {
         this.speed = 1000;
         this.totalMoves = 10;
         this.gameActive = false;
+        this.countdownTimeout = null; // <--- добавлено
 
         this.initializeElements();
         this.bindEvents();
@@ -28,6 +29,8 @@ class FlyGame {
         // Инструкция
         this.toggleInstructionBtn = document.getElementById('toggle-instruction');
         this.instructionDiv = document.getElementById('instruction');
+        // Overlay для отсчёта
+        this.countdownOverlay = document.getElementById('countdown-overlay'); // <--- добавлено
     }
 
     bindEvents() {
@@ -116,7 +119,28 @@ class FlyGame {
         this.startButton.disabled = true;
         this.currentMoveDiv.textContent = '';
         this.progressDiv.textContent = '';
-        setTimeout(() => this.executeNextMove(), 500);
+        // Блок отсчёта перед стартом движения мухи
+        this.showCountdown(3, () => {
+            this.executeNextMove();
+        });
+    }
+
+    showCountdown(seconds, callback) {
+        this.countdownOverlay.classList.remove('hidden');
+        let remaining = seconds;
+        this.countdownOverlay.textContent = remaining;
+        const tick = () => {
+            remaining -= 1;
+            if (remaining > 0) {
+                this.countdownOverlay.textContent = remaining;
+                this.countdownTimeout = setTimeout(tick, 1000);
+            } else {
+                this.countdownOverlay.classList.add('hidden');
+                this.countdownOverlay.textContent = '';
+                if (typeof callback === 'function') callback();
+            }
+        };
+        this.countdownTimeout = setTimeout(tick, 1000);
     }
 
     executeNextMove() {
@@ -222,6 +246,12 @@ class FlyGame {
         this.currentMoveDiv.textContent = '';
         this.progressDiv.textContent = '';
         this.gameActive = false;
+        // Сброс отсчёта
+        if (this.countdownTimeout) {
+            clearTimeout(this.countdownTimeout);
+        }
+        this.countdownOverlay.classList.add('hidden');
+        this.countdownOverlay.textContent = '';
     }
 }
 

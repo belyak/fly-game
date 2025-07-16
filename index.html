@@ -8,54 +8,132 @@
 </head>
 <body>
     <div class="container">
-        <h1>Упражнение "Муха"</h1>
-        <div class="settings-panel">
-            <div class="setting-group">
-                <label for="speed">Скорость команд (сек):</label>
-                <input type="range" id="speed" min="0.5" max="2" step="0.1" value="1.0">
-                <span id="speed-value">1.0</span>
-            </div>
-            <div class="setting-group">
-                <label for="grid-size">Размер поля:</label>
-                <select id="grid-size">
-                    <option value="3">3x3</option>
-                    <option value="5" selected>5x5</option>
-                </select>
-            </div>
-            <div class="setting-group">
-                <label for="moves-count">Количество ходов:</label>
-                <input type="number" id="moves-count" min="5" max="30" value="10">
-            </div>
-            <div class="setting-group">
-                <button id="start-game">Начать упражнение</button>
-            </div>
+        <!-- Заголовок с инструкцией -->
+        <div class="header-section">
+            <h1>Упражнение "Муха"</h1>
+            <button id="toggle-instruction" class="instruction-toggle">📖 Инструкция</button>
         </div>
 
-        <!-- Инструкция под катом -->
-        <div class="instruction-wrapper">
-            <button id="toggle-instruction" class="instruction-toggle">Показать инструкцию</button>
-            <div id="instruction" class="instruction-content hidden">
-                <p>
-                    Данное упражнение создано для развития навыка произвольного внимания (концентрации).<br><br>
-                    Выбирайте скорость не исходя из предела возможностей, а делая постепенные посильные шаги.<br><br>
-                    Муха ВСЕГДА начинает в центральной клеточке. Она получает команды и двигается. Ваша задача — указать на ту клетку, где она оказалась в конце.
-                </p>
-            </div>
+        <!-- Инструкция -->
+        <div id="instruction" class="instruction-content hidden">
+            <p>
+                Данное упражнение создано для развития навыка произвольного внимания (концентрации).<br><br>
+                Выбирайте скорость не исходя из предела возможностей, а делая постепенные посильные шаги.<br><br>
+                Муха ВСЕГДА начинает в центральной клеточке. Она получает команды и двигается. Ваша задача — указать на ту клетку, где она оказалась в конце.
+            </p>
+        </div>
+        
+        <!-- Кнопка настроек -->
+        <div class="settings-header">
+            <button id="toggle-settings" class="settings-toggle">⚙️ Настройки</button>
         </div>
 
-        <!-- Блок для показа текущей команды -->
-        <div id="move-display"></div>
+        <div class="settings-panel" id="settings-panel">
+            <!-- Основные настройки игры -->
+            <div class="settings-section">
+                <h3>🎮 Основные настройки</h3>
+                <div class="setting-group">
+                    <label for="speed">⏱️ Скорость команд (сек):</label>
+                    <div class="input-container">
+                        <input type="range" id="speed" min="0.5" max="3" step="0.1" value="1.0">
+                        <span id="speed-value" class="value-display">1.0</span>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label for="grid-size">📐 Размер поля:</label>
+                    <select id="grid-size" class="styled-select">
+                        <option value="3">3x3</option>
+                        <option value="5" selected>5x5</option>
+                        <option value="11">11x11</option>
+                        <option value="15">15x15</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label for="moves-count">🎯 Количество ходов:</label>
+                    <input type="number" id="moves-count" min="5" max="30" value="10" class="styled-input">
+                </div>
+            </div>
+
+            <!-- Настройки звука -->
+            <div class="settings-section">
+                <h3>🔊 Настройки звука</h3>
+                <div class="setting-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="audio-enabled" checked>
+                        <span class="checkmark"></span>
+                        Включить озвучивание команд
+                    </label>
+                </div>
+                <div class="setting-group">
+                    <label for="audio-speed">🚀 Скорость речи:</label>
+                    <div class="input-container">
+                        <input type="range" id="audio-speed" min="0.5" max="2" step="0.1" value="1.0">
+                        <span id="audio-speed-value" class="value-display">1.0</span>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label for="audio-pitch">🎵 Высота голоса:</label>
+                    <div class="input-container">
+                        <input type="range" id="audio-pitch" min="0.5" max="2" step="0.1" value="1.0">
+                        <span id="audio-pitch-value" class="value-display">1.0</span>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label for="voice-select">🗣️ Голос:</label>
+                    <select id="voice-select" class="styled-select">
+                        <option value="">Голос по умолчанию</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Визуальные настройки -->
+            <div class="settings-section">
+                <h3>👁️ Визуальные настройки</h3>
+                <div class="setting-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="hide-field-during-commands">
+                        <span class="checkmark"></span>
+                        Скрывать поле во время показа команд
+                    </label>
+                </div>
+                <div class="setting-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="enhanced-visual-breaks" checked>
+                        <span class="checkmark"></span>
+                        Усиленные визуальные разделители
+                    </label>
+                </div>
+                <div class="setting-group">
+                    <label for="pause-duration">⏸️ Пауза между командами (мс):</label>
+                    <div class="input-container">
+                        <input type="range" id="pause-duration" min="100" max="1000" step="50" value="250">
+                        <span id="pause-duration-value" class="value-display">250</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div id="progress" class="progress"></div>
         <div id="grid" class="grid"></div>
+        
+        <!-- Кнопка запуска всегда под полем -->
+        <div class="game-controls">
+            <button id="start-game" class="start-button">🚀 Начать упражнение</button>
+        </div>
+        
         <div id="countdown-overlay" class="hidden"></div>
+        
+        <!-- Community Link -->
+        <div class="community-link">
+            Создано сообществом <a href="https://t.me/ResourcesfulLab" target="_blank" rel="noopener">Лаборатория Ресурсов</a>
+        </div>
     </div>
     <!-- Модальное окно результата -->
     <div id="result-modal" class="modal hidden">
         <div class="modal-content">
             <h2 id="result-title"></h2>
             <p id="result-message"></p>
-            <button id="play-again" type="button">Играть снова</button>
+            <button id="play-again" type="button">🔄 Играть снова</button>
         </div>
     </div>
     <script src="fly-game.js"></script>

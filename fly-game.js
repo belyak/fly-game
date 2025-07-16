@@ -446,26 +446,45 @@ class FlyGame {
 
         const correct = (x === this.flyPosition.x && y === this.flyPosition.y);
 
-        this.showResult(correct, cellIndex);
+        this.showCellSelection(correct, cellIndex);
     }
 
-    showResult(correct, selectedIndex) {
+    showCellSelection(correct, selectedIndex) {
         const correctIndex = this.flyPosition.y * this.gridSize + this.flyPosition.x;
-
         this.clearGrid();
 
         const selectedCell = this.grid.children[selectedIndex];
-        selectedCell.classList.add(correct ? 'correct' : 'wrong');
-        selectedCell.textContent = '👆';
-
-        if (!correct) {
-            const correctCell = this.grid.children[correctIndex];
-            correctCell.classList.add('correct');
-            correctCell.textContent = '🪰';
-        } else {
+        
+        if (correct) {
+            // Правильный ответ - показываем золотую муху
+            selectedCell.classList.add('correct', 'fly-selected');
             selectedCell.textContent = '🪰';
+            
+            // Анимация золотой мухи
+            setTimeout(() => {
+                selectedCell.classList.add('golden-fly');
+            }, 100);
+            
+        } else {
+            // Неправильный ответ - сначала показываем грустный смайл
+            selectedCell.classList.add('wrong', 'selected-wrong');
+            selectedCell.textContent = '😞';
+            
+            // Затем показываем настоящую муху
+            setTimeout(() => {
+                const correctCell = this.grid.children[correctIndex];
+                correctCell.classList.add('correct', 'fly-revealed');
+                correctCell.textContent = '🪰';
+            }, 800);
         }
 
+        // Показываем модальное окно с задержкой
+        setTimeout(() => {
+            this.showResult(correct, selectedIndex);
+        }, correct ? 1500 : 2000);
+    }
+
+    showResult(correct, selectedIndex) {
         this.resultTitle.textContent = correct ? 'Верно!' : 'Не верно!';
         this.resultMessage.innerHTML =
             (correct
@@ -481,8 +500,8 @@ class FlyGame {
             const centerIndex = Math.floor(this.gridSize / 2) * this.gridSize + Math.floor(this.gridSize / 2);
             cell.className = 'grid-cell';
             
-            // Restore fly-start highlighting for center cell after game
-            if (index === centerIndex && !this.gameActive) {
+            // Restore fly-start highlighting for center cell only when game is not active AND not in end-game selection phase
+            if (index === centerIndex && !this.gameActive && this.currentMoveIndex === 0) {
                 cell.classList.add('fly-start');
             }
             
